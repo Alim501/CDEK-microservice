@@ -3,46 +3,77 @@ import axios from 'axios';
 
 @Injectable()
 export class CdekService {
-  private readonly clientId = 'ВАШ_CLIENT_ID';
-  private readonly clientSecret = 'ВАШ_CLIENT_SECRET';
+  private readonly clientId = process.env.CDEK_CLIENT_ID;
+  private readonly clientSecret = process.env.CDEK_CLIENT_SECRET;
 
+  // Получение токена
   private async getToken() {
-    const response = await axios.post(
-      'https://api.edu.cdek.ru/v2/oauth/token',
-      {
-        grant_type: 'client_credentials',
-        client_id: this.clientId,
-        client_secret: this.clientSecret,
-      },
-    );
+    try {
+      const params = new URLSearchParams();
+      params.append('grant_type', 'client_credentials');
+      params.append('client_id', this.clientId);
+      params.append('client_secret', this.clientSecret);
 
-    return response.data.access_token;
+      const response = await axios.post(
+        'https://api.edu.cdek.ru/v2/oauth/token',
+        params,
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        },
+      );
+
+      return response.data.access_token;
+    } catch (error) {
+      console.error(
+        'Ошибка при получении токена:',
+        error.response?.data || error.message,
+      );
+      throw new Error('Ошибка аутентификации в API СДЭК');
+    }
   }
 
-  async calculateDelivery(data: any) {
-    const { fromCity, toCity, weight, length, width, height } = data;
-    const token = await this.getToken();
+  // Расчет доставки
+  async calculateDelivery(toCity: number) {
+    try {
+      const token = await this.getToken();
 
-    const response = await axios.post(
-      'https://api.edu.cdek.ru/v2/calculator/tariff',
-      {
-        tariff_code: 10,
-        from_location: { city: fromCity },
-        to_location: { city: toCity },
-        packages: [
-          {
-            weight,
-            length,
-            width,
-            height,
+      const response = await axios.post(
+        'https://api.edu.cdek.ru/v2/calculator/tariff',
+        {
+          type: '2',
+          tariff_code: '234',
+          from_location: {
+            code: 256,
           },
-        ],
-      },
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      },
-    );
+          to_location: {
+            code: toCity,
+          },
+          services: [
+            {
+              code: 'COURIER_PACKAGE_A2',
+            },
+          ],
+          packages: [
+            {
+              weight: 1,
+            },
+          ],
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
 
-    return response.data;
+      console.log('Успешный расчет доставки:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error(
+        'Ошибка при расчете доставки:',
+        error.response?.data || error.message,
+      );
+      throw new Error('Ошибка при расчете доставки. Проверьте данные.');
+    }
   }
 }

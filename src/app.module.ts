@@ -1,10 +1,7 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { CdekService } from './cdek.service';
+import { CdekModule } from './cdek.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [CdekService],
+  imports: [CdekModule],
 })
 export class AppModule {}
