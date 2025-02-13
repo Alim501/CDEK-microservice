@@ -7,12 +7,12 @@ async function bootstrap() {
     const app = await core_1.NestFactory.createMicroservice(app_module_1.AppModule, {
         transport: microservices_1.Transport.TCP,
         options: {
-            host: 'localhost',
+            host: '127.0.0.1',
             port: 7001,
         },
     });
+    console.log('CDEK-Microservice is running on port 7001');
     await app.listen();
-    console.log('CDEK microservice is running on port 7001');
 }
 bootstrap();
 //# sourceMappingURL=main.js.map

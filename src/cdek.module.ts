@@ -1,16 +1,15 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { CdekService } from './cdek.service';
-import { AppController } from './app.controller';
+import { CdekController } from './cdek.controller';
 
 @Module({
-  controllers: [AppController],
+  controllers: [CdekController],
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
   ],
   providers: [CdekService],
-  exports: [CdekService],
 })
 export class CdekModule {}

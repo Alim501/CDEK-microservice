@@ -10,20 +10,19 @@ exports.CdekModule = void 0;
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const cdek_service_1 = require("./cdek.service");
-const app_controller_1 = require("./app.controller");
+const cdek_controller_1 = require("./cdek.controller");
 let CdekModule = class CdekModule {
 };
 exports.CdekModule = CdekModule;
 exports.CdekModule = CdekModule = __decorate([
     (0, common_1.Module)({
-        controllers: [app_controller_1.AppController],
+        controllers: [cdek_controller_1.CdekController],
         imports: [
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
             }),
         ],
         providers: [cdek_service_1.CdekService],
-        exports: [cdek_service_1.CdekService],
     })
 ], CdekModule);
 //# sourceMappingURL=cdek.module.js.map
