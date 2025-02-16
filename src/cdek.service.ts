@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
-import { UUID } from 'crypto';
 
 @Injectable()
 export class CdekService {

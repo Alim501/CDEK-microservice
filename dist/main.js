@@ -4,14 +4,15 @@ const core_1 = require("@nestjs/core");
 const microservices_1 = require("@nestjs/microservices");
 const app_module_1 = require("./app.module");
 async function bootstrap() {
+    const PORT = process.env.PORT;
     const app = await core_1.NestFactory.createMicroservice(app_module_1.AppModule, {
         transport: microservices_1.Transport.TCP,
         options: {
-            host: '127.0.0.1',
-            port: 7001,
+            host: process.env.HOST,
+            port: Number(PORT),
         },
     });
-    console.log('CDEK-Microservice is running on port 7001');
+    console.log(`CDEK-Microservice is running on port ${PORT} `);
     await app.listen();
 }
 bootstrap();

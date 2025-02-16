@@ -9,12 +9,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const cdek_module_1 = require("./cdek.module");
+const config_1 = require("@nestjs/config");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [cdek_module_1.CdekModule],
+        imports: [
+            cdek_module_1.CdekModule,
+            config_1.ConfigModule.forRoot({
+                envFilePath: `.${process.env.NODE_ENV}.env`,
+            }),
+        ],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

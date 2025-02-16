@@ -8,7 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CdekModule = void 0;
 const common_1 = require("@nestjs/common");
-const config_1 = require("@nestjs/config");
 const cdek_service_1 = require("./cdek.service");
 const cdek_controller_1 = require("./cdek.controller");
 let CdekModule = class CdekModule {
@@ -17,11 +16,6 @@ exports.CdekModule = CdekModule;
 exports.CdekModule = CdekModule = __decorate([
     (0, common_1.Module)({
         controllers: [cdek_controller_1.CdekController],
-        imports: [
-            config_1.ConfigModule.forRoot({
-                isGlobal: true,
-            }),
-        ],
         providers: [cdek_service_1.CdekService],
     })
 ], CdekModule);
